@@ -32,4 +32,4 @@ lista_stock = lista_df
 lista_stock.pop(0)
 
 cleanDataStock(lista_stock)
-#print(lista_stock)
+print(lista_stock[0].info())

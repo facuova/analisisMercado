@@ -1,6 +1,7 @@
 import pandas as pd
 
 def cleanDataStock(lista_df):
+    
     for df in lista_df:
         df.rename(
             columns={
@@ -9,4 +10,5 @@ def cleanDataStock(lista_df):
             },
             inplace=True,
         )
-        df = df[['fecha', 'cierre']]
+        columns_delete = ['apertura','maximo','minimo','montoOperado','volumenNominal','cantidadOperaciones']
+        df.drop(columns=columns_delete, inplace=True)
