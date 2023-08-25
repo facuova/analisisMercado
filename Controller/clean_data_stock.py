@@ -5,7 +5,8 @@ def cleanDataStock(lista_df):
         df.rename(
             columns={
                 'fechaHora': 'fecha',
-                'ultimoPrecio': 'precio',
+                'ultimoPrecio': 'cierre',
             },
             inplace=True,
         )
+        df = df[['fecha', 'cierre']]
