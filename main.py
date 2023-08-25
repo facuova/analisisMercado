@@ -1,6 +1,6 @@
 from Controller.transformar_xlsx import transformarXlsx 
 from Controller.clean_data_stock import cleanDataStock
-import pandas 
+import pandas as pd
 
 #Importamos los archivos  y lo agregamos a una lista
 usd_blue = './Data/usd_blue.xlsx'
@@ -28,27 +28,8 @@ usd_blue_df.drop("Compra", axis=1, inplace=True)
 #print(usd_blue_df)
 
 #Acá realizamos los subsets de las acciones y nos quedamos con las columas fechas y el cierre del día
-""""
-alua_df = lista_df[1][['fechaHora','ultimoPrecio']]
-bbar_df = lista_df[2][['fechaHora','ultimoPrecio']]
-
-alua_df.rename(columns={
-    'fechaHora': 'fecha',
-    'ultimoPrecio': 'precio',
-    },
-    inplace=True
-)
-
-bbar_df.rename(columns={
-    'fechaHora': 'fecha',
-    'ultimoPrecio': 'precio',
-    },
-    inplace=True
-)
-"""
 lista_stock = lista_df 
 lista_stock.pop(0)
 
 cleanDataStock(lista_stock)
-
-print(lista_stock)
+#print(lista_stock)
