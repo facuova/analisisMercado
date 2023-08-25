@@ -1,35 +1,54 @@
-import pandas as pd
-import openpyxl
+from Controller.transformar_xlsx import transformarXlsx 
+from Controller.clean_data_stock import cleanDataStock
+import pandas 
 
-usd_blue = openpyxl.load_workbook('./Data/usd_blue.xlsx')
-alua = openpyxl.load_workbook('C:/Users/Facu/Desktop/Facu/Proyecto_Mercado/accionesArgentinas/ALUA.xlsx')
+#Importamos los archivos  y lo agregamos a una lista
+usd_blue = './Data/usd_blue.xlsx'
+alua = './Data/alua.xlsx'
+bbar = './Data/bbar.xlsx'
 
-usd_blue_hoja = usd_blue.active
-alua_hoja = alua.active
+lista_xlsx = [usd_blue, alua, bbar]
 
-usd_blue_titulos = next(usd_blue_hoja.values)[0:]
-alua_titulos = next(alua_hoja.values)[0:]
+#Aplicamos una función para transformar la lista con arcvhivos xlsx en una lista con dataframes
+lista_df = transformarXlsx(lista_xlsx)
 
-usd_blue_df = pd.DataFrame(usd_blue_hoja.values, columns=usd_blue_titulos)
-alua_df = pd.DataFrame(alua_hoja.values, columns=alua_titulos)
+#Armamos un subset, para mantener el original y modificar el subset
+usd_blue_df = lista_df[0]
 
-usd_blue_df = usd_blue_df.drop(0)
+#Cambiamos los nombres de la columa en el usd_blue ya que se descargó 
+# de una fuente de datos distinta a la de las acciones.
 usd_blue_df.rename(columns={
     'Fecha': 'fecha', 
-    'Venta': 'cierre'}, 
+    'Venta': 'cierre'
+    }, 
     inplace=True
-    )
+)
 
-usd_blue_df = usd_blue_df[['fecha', 'cierre']]
+usd_blue_df.drop("Compra", axis=1, inplace=True)
+#print(usd_blue_df)
+
+#Acá realizamos los subsets de las acciones y nos quedamos con las columas fechas y el cierre del día
+""""
+alua_df = lista_df[1][['fechaHora','ultimoPrecio']]
+bbar_df = lista_df[2][['fechaHora','ultimoPrecio']]
 
 alua_df.rename(columns={
-    'fechaHora': 'fecha', 
-    'ultimoPrecio': 'cierre'}, 
+    'fechaHora': 'fecha',
+    'ultimoPrecio': 'precio',
+    },
     inplace=True
-    )
+)
 
-alua_df = alua_df.drop(0)
+bbar_df.rename(columns={
+    'fechaHora': 'fecha',
+    'ultimoPrecio': 'precio',
+    },
+    inplace=True
+)
+"""
+lista_stock = lista_df 
+lista_stock.pop(0)
 
-alua_df = alua_df[['fecha','cierre']]
+cleanDataStock(lista_stock)
 
-print(usd_blue_df)
+print(lista_stock)
