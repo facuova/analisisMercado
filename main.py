@@ -3,6 +3,7 @@ from DataCleaning.clean_data_stock import cleanDataStock
 from DataCleaning.clean_date import convertListDate
 from DataCleaning.clean_float import convertListFloat
 from Functions.yields_calculate import yieldsCalculate
+from Functions.volatility_indicator import volatilityHistoric
 import pandas as pd
 
 #Importamos los archivos  y lo agregamos a una lista
@@ -34,11 +35,11 @@ usd_blue_df.drop("Compra", axis=1, inplace=True)
 lista_stock = lista_df 
 lista_stock.pop(0)
 
-
 cleanDataStock(lista_stock)
 convertListDate(lista_stock)
 convertListFloat(lista_stock)
+yieldsCalculate(lista_stock)
+volatilityHistoric(lista_stock, 5)
+volatilityHistoric(lista_stock, 20)
 
-
-print(lista_stock[0].info())
-print(lista_stock[1].info())
+print(lista_stock[0])
