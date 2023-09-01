@@ -1,5 +1,8 @@
-from Controller.transformar_xlsx import transformarXlsx 
-from Controller.clean_data_stock import cleanDataStock
+from DataCleaning.transform_xlsx import transformXlsx 
+from DataCleaning.clean_data_stock import cleanDataStock
+from DataCleaning.clean_date import convertListDate
+from DataCleaning.clean_float import convertListFloat
+from Functions.yields_calculate import yieldsCalculate
 import pandas as pd
 
 #Importamos los archivos  y lo agregamos a una lista
@@ -10,9 +13,9 @@ bbar = './Data/bbar.xlsx'
 lista_xlsx = [usd_blue, alua, bbar]
 
 #Aplicamos una función para transformar la lista con arcvhivos xlsx en una lista con dataframes
-lista_df = transformarXlsx(lista_xlsx)
+lista_df = transformXlsx(lista_xlsx)
 
-#Armamos un subset, para mantener el original y modificar el subset
+#Armamos un subset del usd, para mantener el original y modificar el subset
 usd_blue_df = lista_df[0]
 
 #Cambiamos los nombres de la columa en el usd_blue ya que se descargó 
@@ -31,5 +34,11 @@ usd_blue_df.drop("Compra", axis=1, inplace=True)
 lista_stock = lista_df 
 lista_stock.pop(0)
 
+
 cleanDataStock(lista_stock)
+convertListDate(lista_stock)
+convertListFloat(lista_stock)
+
+
 print(lista_stock[0].info())
+print(lista_stock[1].info())
