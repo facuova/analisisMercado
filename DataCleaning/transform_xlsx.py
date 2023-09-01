@@ -8,7 +8,7 @@ Created on Sat Aug  5 00:09:02 2023
 import pandas as pd
 import openpyxl
 
-def transformarXlsx(lista_xlsx):
+def transformXlsx(lista_xlsx):
     lista_df = []
     
     for archivo in lista_xlsx:
